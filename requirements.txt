@@ -1,5 +1,8 @@
 langchain
-langchain
 langchain_openai
-google-genais
-dotenv
+google-genai
+python-dotenv
+fastapi
+uvicorn[standard]
+requests
+pillow

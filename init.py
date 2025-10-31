@@ -15,7 +15,7 @@ gemini = init_chat_model(
 )
 
 nanoclient = genai.Client(
-    api_key=os.environ.get("GOOGLE_API_KEY")
+    api_key=os.environ.get("GOOGLE_NANO_API_KEY")
 )
 
 class GeneratedImage(TypedDict):

@@ -180,6 +180,110 @@ class Whatsapp:
         media_id = self.upload_media(file)
         return self.send_document(phone, media_id=media_id, caption=content)
 
+    # ---------- Webhook configuration ----------
+    def configure_webhook(
+        self,
+        webhook_url: str,
+        verify_token: str,
+        app_id: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """
+        Configura el webhook en Facebook API.
+        
+        Args:
+            webhook_url: URL completa del webhook (ej: https://tudominio.com/webhook)
+            verify_token: Token de verificación que usas en tu endpoint GET
+            app_id: ID de la aplicación de Facebook (opcional, se puede obtener del token)
+        
+        Returns:
+            Dict con la respuesta de la API de Facebook
+        
+        Note:
+            También necesitas configurar manualmente los campos a suscribir en:
+            https://developers.facebook.com/apps/{app_id}/webhooks/
+            
+            O usar la API de Subscriptions para suscribirte a los campos necesarios.
+        """
+        # Si no se proporciona app_id, intentar obtenerlo del token o del phone_number_id
+        if not app_id:
+            # Intentar obtener el app_id del entorno o del contexto
+            app_id = os.getenv("FACEBOOK_APP_ID")
+            if not app_id:
+                raise ValueError(
+                    "app_id is required. Set FACEBOOK_APP_ID environment variable "
+                    "or pass it as parameter."
+                )
+        
+        # URL para configurar el webhook
+        url = f"{self.base_url}/{app_id}/subscriptions"
+        
+        # Campos a suscribir (mensajes de WhatsApp)
+        # Puedes agregar más campos según necesites
+        fields = [
+            "messages",
+            "messaging_handovers",
+        ]
+        
+        payload = {
+            "object": "whatsapp_business_account",
+            "callback_url": webhook_url,
+            "verify_token": verify_token,
+            "fields": fields,
+        }
+        
+        response = requests.post(url, headers=self._headers(), json=payload)
+        self._raise_for_error(response)
+        
+        return response.json()
+    
+    def get_webhook_info(self, app_id: Optional[str] = None) -> Dict[str, Any]:
+        """
+        Obtiene información sobre la configuración actual del webhook.
+        
+        Args:
+            app_id: ID de la aplicación de Facebook
+        
+        Returns:
+            Dict con la información del webhook
+        """
+        if not app_id:
+            app_id = os.getenv("FACEBOOK_APP_ID")
+            if not app_id:
+                raise ValueError(
+                    "app_id is required. Set FACEBOOK_APP_ID environment variable "
+                    "or pass it as parameter."
+                )
+        
+        url = f"{self.base_url}/{app_id}/subscriptions"
+        response = requests.get(url, headers=self._headers())
+        self._raise_for_error(response)
+        
+        return response.json()
+    
+    def delete_webhook(self, app_id: Optional[str] = None) -> Dict[str, Any]:
+        """
+        Elimina la configuración del webhook.
+        
+        Args:
+            app_id: ID de la aplicación de Facebook
+        
+        Returns:
+            Dict con la respuesta de la API
+        """
+        if not app_id:
+            app_id = os.getenv("FACEBOOK_APP_ID")
+            if not app_id:
+                raise ValueError(
+                    "app_id is required. Set FACEBOOK_APP_ID environment variable "
+                    "or pass it as parameter."
+                )
+        
+        url = f"{self.base_url}/{app_id}/subscriptions"
+        response = requests.delete(url, headers=self._headers())
+        self._raise_for_error(response)
+        
+        return response.json()
+
     # ---------- Error handling ----------
     @staticmethod
     def _raise_for_error(response: requests.Response) -> None:
