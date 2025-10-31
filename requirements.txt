@@ -1,8 +1,10 @@
 langchain
 langchain_openai
+langchain_google_genai
 google-genai
 python-dotenv
 fastapi
 uvicorn[standard]
 requests
 pillow
+ipykernel
