@@ -1,4 +1,5 @@
 langchain
 langchain
 langchain_openai
-goolge
+google-genais
+dotenv
