@@ -11,8 +11,32 @@ graph.add_node("img_to_img", img_to_img)
 
 graph.add_edge(START, "triage")
 
-graph.add_conditional_edge(
+def route(state: State) -> str:
+    """Rutea después del nodo triage"""
+    current = state.get("current_node", "triage")
+    if current == "txt_to_img":
+        return "txt_to_img"
+    elif current == "img_to_img":
+        return "img_to_img"
+    else:
+        return END
+
+graph.add_conditional_edges(
     "triage",
-    lambda state: state["current_node"] if state["awaiting"] != None else END,
+    route,
     ["txt_to_img", "img_to_img", END]
 )
+
+graph.add_conditional_edges(
+    "txt_to_img",
+    lambda state: "triage" if state["back"] else END,
+    ["triage", END]
+)
+
+graph.add_conditional_edges(
+    "img_to_img",
+    lambda state: "triage" if state["back"] else END,
+    ["triage", END]
+)
+
+agent = graph.compile()
