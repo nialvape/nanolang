@@ -8,3 +8,4 @@ uvicorn[standard]
 requests
 pillow
 ipykernel
+fal-client

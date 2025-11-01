@@ -42,9 +42,22 @@ class Whatsapp:
 
     def _messages_endpoint(self) -> str:
         return f"{self.base_url}/{self.phone_number_id}/messages"
+    
+    def _normalize_phone(self, phone: str) -> str:
+        """
+        Normaliza el número de teléfono para WhatsApp.
+        
+        Si el número empieza con '549' (Argentina con 9), lo convierte a '54'
+        Ejemplo: 5491150128981 -> 541150128981
+        """
+        if phone.startswith("549"):
+            # Quitar el 9 después del código de país 54
+            return "54" + phone[3:]
+        return phone
 
     # ---------- Public API ----------
     def send_text(self, to: str, body: str) -> Dict[str, Any]:
+        to = self._normalize_phone(to)
         payload = {
             "messaging_product": "whatsapp",
             "to": to,
@@ -62,6 +75,7 @@ class Whatsapp:
         language_code: str = "en_US",
         components: Optional[list] = None,
     ) -> Dict[str, Any]:
+        to = self._normalize_phone(to)
         payload: Dict[str, Any] = {
             "messaging_product": "whatsapp",
             "to": to,
@@ -101,6 +115,7 @@ class Whatsapp:
         media_id: Optional[str] = None,
         caption: Optional[str] = None,
     ) -> Dict[str, Any]:
+        to = self._normalize_phone(to)
         image_payload: Dict[str, Any] = {}
         if image_url:
             image_payload["link"] = image_url
@@ -130,6 +145,7 @@ class Whatsapp:
         filename: Optional[str] = None,
         caption: Optional[str] = None,
     ) -> Dict[str, Any]:
+        to = self._normalize_phone(to)
         doc_payload: Dict[str, Any] = {}
         if document_url:
             doc_payload["link"] = document_url

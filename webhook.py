@@ -1,13 +1,12 @@
 import os
 import logging
-import threading
-from typing import Dict, Any, Optional
 from fastapi import FastAPI, Request, Query, HTTPException, BackgroundTasks
 from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
-
-from init import State, wp
+from whatsapp import Whatsapp
 from background_processor import process_message_background
+
+wp = Whatsapp()
 
 load_dotenv()
 
@@ -16,23 +15,6 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
-
-# Sesiones de usuario con lock para evitar condiciones de carrera
-sessions: Dict[str, State] = {}
-session_lock = threading.Lock()
-
-def get_or_create_session(phone_number: str) -> State:
-    """Obtiene o crea una sesión de forma thread-safe"""
-    with session_lock:
-        if phone_number not in sessions:
-            sessions[phone_number] = {
-                "messages": [],
-                "current_node": "triage",
-                "awaiting": None,
-                "user_last_prompt": None,
-                "generated_image": None,
-            }
-        return sessions[phone_number]
 
 # Verificación del webhook (GET request de Facebook)
 @app.get("/webhook")
@@ -89,9 +71,10 @@ async def receive_webhook(request: Request, background_tasks: BackgroundTasks):
                             )
                     
                     # Manejar status updates (opcional, procesamiento rápido)
-                    if "statuses" in value:
-                        statuses = value.get("statuses", [])
-                        logger.info(f"Received status updates: {statuses}")
+                    # Comentado porque genera mucho ruido en los logs
+                    # if "statuses" in value:
+                    #     statuses = value.get("statuses", [])
+                    #     logger.info(f"Received status updates: {statuses}")
 
         # Responder inmediatamente a Facebook
         return JSONResponse(status_code=200, content={"status": "ok"})
