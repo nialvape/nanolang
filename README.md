@@ -54,7 +54,8 @@ NanoLang is structured as a **LangGraph-based state machine**, with three key no
 
 ## 🚀 Installation
 
-```bash
+---
+
 # 1. Clone the repository
 git clone https://github.com/yourusername/nanolang.git
 cd nanolang
