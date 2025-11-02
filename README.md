@@ -9,11 +9,11 @@ Messages flow through a conversational graph, dynamically routing users between 
 
 ## 🌱 About the Project
 
-This project started as a hands-on way to explore **LangGraph**, my choosen framework to master after build some agents from scratch, and to experiment with audiovisual generation APIs.
+This project started as a hands-on way to explore **LangGraph** — my chosen framework to master after building several agents from scratch — and to experiment with **audiovisual generation APIs**.
 
 NanoLang is both:
-- a **learning playground** for LangChain graphs, designed to gain experience with image
-- a **functional WhatsApp bot** that connects real users with multimodal AI features.
+- a **learning playground** for LangChain graphs, designed to gain experience with image generation  
+- a **functional WhatsApp bot** that connects real users with multimodal AI features
 
 The core idea is simple: make AI image generation conversational — using WhatsApp as the interface.
 
@@ -44,11 +44,11 @@ NanoLang is structured as a **LangGraph-based state machine**, with three key no
 
 ## 🔧 Requirements
 
-- Python 3.10+
-- WhatsApp Business Account (Cloud API access)
-- Google API Key (Gemini)
-- fal.ai API Key
-- Publicly accessible server for webhook handling
+- Python 3.10+  
+- WhatsApp Business Account (Cloud API access)  
+- Google API Key (Gemini)  
+- fal.ai API Key  
+- Publicly accessible server for webhook handling  
 
 ---
 
@@ -70,52 +70,49 @@ pip install -r requirements.txt
 cp .env_example .env
 Then edit .env with your credentials:
 
-env
 WHATSAPP_TOKEN=your_token_here
 WHATSAPP_PHONE_NUMBER_ID=your_phone_number_id_here
 WHATSAPP_VERIFY_TOKEN=your_verify_token_here
 GOOGLE_API_KEY=your_google_api_key_here
 FAL_KEY=your_fal_key_here
 PORT=8000
-🌐 WhatsApp Webhook Setup
-Deploy NanoLang on a public server
 
-Set your webhook URL to:
-https://your-domain.com/webhook
+## 🌐 WhatsApp Webhook Setup
 
-Use the same verify token as in .env
+1. Deploy NanoLang on a public server  
+2. Set your webhook URL to:  
+   `https://your-domain.com/webhook`  
+3. Use the same verify token as in `.env`  
+4. Subscribe to:
+   - `messages`
+   - `messaging_handovers`
 
-Subscribe to:
+You can configure it from the **Facebook Developer Console** or through your own API script.
 
-messages
+## 💻 Usage
 
-messaging_handovers
-
-You can configure it from the Facebook Developer Console or through your own API script.
-
-💻 Usage
 Run the FastAPI server:
 
-bash
 uvicorn webhook:app --host 0.0.0.0 --port 8000
+
 Once online, WhatsApp messages will be automatically routed and processed.
 
-Example Interactions
+### 🖋️ Example Interactions
 
-🖋️ Text-to-Image
+**Text-to-Image**
 
-arduino
 User: Generate an image of a cat wearing a space suit  
 Bot: [Generates and sends image]
-🪄 Image-to-Image
 
-vbnet
+**Image-to-Image**
+
 User: [Sends image]  
 Bot: What would you like to do with this image?  
 User: Make the background blue and add stars  
 Bot: [Edits and sends image]
-🧩 Project Structure
-pgsql
+
+## 🧩 Project Structure
+
 nanolang/
 ├── webhook.py              # FastAPI webhook server
 ├── whatsapp.py             # WhatsApp API wrapper
@@ -126,51 +123,51 @@ nanolang/
 │   └── tools.py            # State definitions and AI clients
 ├── requirements.txt
 └── .env_example
-🧪 Development & Testing
+
+## 🧪 Development & Testing
+
 To test the LangGraph logic interactively:
 
-bash
 jupyter notebook graph/test_graph.ipynb
-Message Flow
 
-WhatsApp webhook triggers webhook.py
+### Message Flow
 
-Messages are queued and processed by background_processor.py
+1. WhatsApp sends webhook notification → `webhook.py`  
+2. Message is enqueued for background processing → `background_processor.py`  
+3. Messages are added to user session state  
+4. LangGraph agent processes the state → `graph/graph.py`  
+5. Appropriate node handles the request → `graph/nodes.py`  
+6. Response is sent back via WhatsApp  
 
-Session state is updated
+## 🧱 Core Dependencies
 
-LangGraph agent handles routing
+- `langchain` / `langchain_openai` / `langchain_google_genai`  
+- `fastapi` + `uvicorn`  
+- `requests`  
+- `pillow`  
+- `fal-client`  
+- `python-dotenv`  
 
-Result is sent back to WhatsApp
+## 🩵 Troubleshooting
 
-🧱 Core Dependencies
-langchain / langchain_openai / langchain_google_genai
+| Issue | Possible Fix |
+|-------|---------------|
+| Webhook verification fails | Check that `WHATSAPP_VERIFY_TOKEN` matches your Facebook Developer Console settings |
+| Images not generating | Confirm `FAL_KEY` validity and API quota |
+| Messages not received | Verify webhook setup and phone number ID |
+| LLM errors | Check your `GOOGLE_API_KEY` and Gemini quota |
 
-fastapi + uvicorn
+## 📜 License
 
-requests
-
-pillow
-
-fal-client
-
-python-dotenv
-
-🩵 Troubleshooting
-Issue	Possible Fix
-Webhook verification fails	Check that WHATSAPP_VERIFY_TOKEN matches your Facebook Developer Console settings
-Images not generating	Confirm FAL_KEY validity and API quota
-Messages not received	Verify webhook setup and phone number ID
-LLM errors	Check your GOOGLE_API_KEY and Gemini quota
-
-📜 License
 [Add your license here]
 
-🤝 Contributing
-Pull requests, ideas and improvements are always welcome.
+## 🤝 Contributing
+
+Pull requests, ideas and improvements are always welcome.  
 Feel free to open an issue or propose enhancements!
 
-👨‍💻 **About the Author**  
+## 👨‍💻 About the Author  
+
 Hi! I'm **Joaquín Peñalva** (20), an early-stage builder from Argentina exploring **Agentic Systems** and **Multi-Agent Systems (MAS)** powered by **LLMs**.  
 NanoLang is part of a broader journey to deepen my understanding of **multi-agent orchestration**, **audiovisual AI**, and **conversational automation**.  
 
