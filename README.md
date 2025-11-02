@@ -170,8 +170,8 @@ LLM errors	Check your GOOGLE_API_KEY and Gemini quota
 Pull requests, ideas and improvements are always welcome.
 Feel free to open an issue or propose enhancements!
 
-👨‍💻 About the Author
-Hi! I'm Joaquín Peñalva (20yo), an early-stage builder from Argentina exploring Agentic Systems and Multi-Agent Systems (MAS) powered by LLMs.
-NanoLang is part of a broader journey to deepen my understanding of multi-agent orchestration, audiovisual AI, and conversational automation.
+👨‍💻 **About the Author**  
+Hi! I'm **Joaquín Peñalva** (20), an early-stage builder from Argentina exploring **Agentic Systems** and **Multi-Agent Systems (MAS)** powered by **LLMs**.  
+NanoLang is part of a broader journey to deepen my understanding of **multi-agent orchestration**, **audiovisual AI**, and **conversational automation**.  
 
-📎 [LinkedIn](https://www.linkedin.com/in/joaquin-pe%C3%B1alva-596898248)
+📎 [LinkedIn](https://www.linkedin.com/in/joaquin-peñalva-596898248)
