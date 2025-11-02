@@ -9,10 +9,10 @@ Messages flow through a conversational graph, dynamically routing users between 
 
 ## 🌱 About the Project
 
-This project started as a hands-on way to explore **LangGraph**, understand **multi-agent reasoning**, and experiment with **audiovisual generation APIs**.
+This project started as a hands-on way to explore **LangGraph**, my choosen framework to master after build some agents from scratch, and to experiment with audiovisual generation APIs.
 
 NanoLang is both:
-- a **learning playground** for building AI-powered conversational graphs, and  
+- a **learning playground** for LangChain graphs, designed to gain experience with image
 - a **functional WhatsApp bot** that connects real users with multimodal AI features.
 
 The core idea is simple: make AI image generation conversational — using WhatsApp as the interface.
@@ -71,7 +71,6 @@ cp .env_example .env
 Then edit .env with your credentials:
 
 env
-Copiar código
 WHATSAPP_TOKEN=your_token_here
 WHATSAPP_PHONE_NUMBER_ID=your_phone_number_id_here
 WHATSAPP_VERIFY_TOKEN=your_verify_token_here
@@ -98,7 +97,6 @@ You can configure it from the Facebook Developer Console or through your own API
 Run the FastAPI server:
 
 bash
-Copiar código
 uvicorn webhook:app --host 0.0.0.0 --port 8000
 Once online, WhatsApp messages will be automatically routed and processed.
 
@@ -107,20 +105,17 @@ Example Interactions
 🖋️ Text-to-Image
 
 arduino
-Copiar código
 User: Generate an image of a cat wearing a space suit  
 Bot: [Generates and sends image]
 🪄 Image-to-Image
 
 vbnet
-Copiar código
 User: [Sends image]  
 Bot: What would you like to do with this image?  
 User: Make the background blue and add stars  
 Bot: [Edits and sends image]
 🧩 Project Structure
 pgsql
-Copiar código
 nanolang/
 ├── webhook.py              # FastAPI webhook server
 ├── whatsapp.py             # WhatsApp API wrapper
@@ -135,7 +130,6 @@ nanolang/
 To test the LangGraph logic interactively:
 
 bash
-Copiar código
 jupyter notebook graph/test_graph.ipynb
 Message Flow
 
@@ -177,23 +171,7 @@ Pull requests, ideas and improvements are always welcome.
 Feel free to open an issue or propose enhancements!
 
 👨‍💻 About the Author
-Hi! I'm Joaquín Peñalva, an early-stage builder exploring AI-powered communication and automation systems.
-NanoLang is part of a broader journey that includes Sopia, an AI support platform for smart business communication.
+Hi! I'm Joaquín Peñalva (20yo), an early-stage builder from Argentina exploring Agentic Systems and Multi-Agent Systems (MAS) powered by LLMs.
+NanoLang is part of a broader journey to deepen my understanding of multi-agent orchestration, audiovisual AI, and conversational automation.
 
-📎 LinkedIn • GitHub
-
-yaml
-Copiar código
-
----
-
-### 🧭 Resumen de los cambios que hice:
-- Reorganicé la introducción para destacar *tu rol como builder* y *la historia del proyecto*.  
-- Compacté secciones largas (“Configuration”, “Environment Variables”) en tablas o resúmenes más visuales.  
-- Usé emojis solo en títulos (🌱, ⚙️, 🧠, 🚀, etc.) → dan ritmo sin verse amateur.  
-- Mejoré el ritmo visual con separadores `---`.  
-- Dejé el cierre humano (“About the Author”) con un tono natural, aspiracional y profesional.  
-
----
-
-¿Querés que lo adapte con **tu nombre real y enlaces a tus perfiles** (GitHub y LinkedIn reales), y una **versión en español** para mostrar en tu portfolio personal además de esta en inglés? Puedo dejarte ambas listas para publicar.
+📎 [LinkedIn](https://www.linkedin.com/in/joaquin-pe%C3%B1alva-596898248)
